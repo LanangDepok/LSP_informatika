@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('kabupaten_kotas', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('provinsi_id');
             $table->string('nama');
             $table->timestamps();
         });

@@ -17,19 +17,22 @@ class UserSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'nama' => 'admin',
             'password' => 'admin',
-            'role' => 'Admin'
+            'role' => 'Admin',
+            'status' => '-'
         ]);
         User::create([
             'email' => 'bagas@gmail.com',
             'nama' => 'Bagas Rizkiyanto',
             'password' => '123',
-            'role' => 'Mahasiswa'
+            'role' => 'Mahasiswa',
+            'status' => 'Belum mengajukan'
         ]);
         User::create([
             'email' => 'lea@gmail.com',
             'nama' => 'Fillea Rethia Yuma',
             'password' => '123',
-            'role' => 'Mahasiswa'
+            'role' => 'Mahasiswa',
+            'status' => 'Belum mengajukan'
         ]);
     }
 }

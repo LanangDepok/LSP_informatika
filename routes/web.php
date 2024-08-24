@@ -26,4 +26,8 @@ Route::middleware('auth')->controller(DataController::class)->group(function () 
 
     //kelola data pendaftaran mahasiswa di admin
     Route::get('/getAllPendaftaran', 'getAllPendaftaran')->name('getAllPendaftaran');
+
+    //pendaftaran untuk mahasiswa
+    Route::get('/pendaftaranMahasiswa', 'pendaftaranMahasiswa')->name('pendaftaranMahasiswa');
+    Route::put('/ajukanPendaftaran/{user}', 'ajukanPendaftaran')->name('ajukanPendaftaran');
 });
