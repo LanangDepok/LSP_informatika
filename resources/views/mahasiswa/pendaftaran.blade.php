@@ -32,22 +32,24 @@
         </div>
         <div class="mb-5">
             <label for="provinsi" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Provinsi</label>
-            <select id="provinsi" name="provinsi"
+            <select id="provinsi" name="provinsi_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 @foreach ($provinsi as $provinsi1)
-                    <option value="{{ $provinsi1->id }}" {{ Auth::user()->provinsi == $provinsi1->nama ? 'selected' : '' }}>
-                        {{ $provinsi1->nama }}</option>
+                    <option value="{{ $provinsi1->id }}"
+                        {{ Auth::user()->provinsi_id == $provinsi1->id ? 'selected' : '' }}>
+                        {{ $provinsi1->nama }}
+                    </option>
                 @endforeach
             </select>
         </div>
         <div class="mb-5">
             <label for="kota"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kota/Kabupaten</label>
-            <select id="kota" name="kota"
+            <select id="kota" name="kota_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 @foreach ($kot_kab as $kot_kab1)
                     <option value="{{ $kot_kab1->id }}" data-provinsi-id="{{ $kot_kab1->provinsi_id }}"
-                        {{ Auth::user()->kota == $kot_kab1->nama ? 'selected' : '' }}>
+                        {{ Auth::user()->kota_id == $kot_kab1->id ? 'selected' : '' }}>
                         {{ $kot_kab1->nama }}
                     </option>
                 @endforeach
@@ -149,20 +151,23 @@
         <div class="mb-5">
             <label for="provinsi_lahir"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Provinsi</label>
-            <select id="provinsi_lahir" name="provinsi_lahir"
+            <select id="provinsi_lahir" name="provinsi_lahir_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 @foreach ($provinsi as $provinsi1)
-                    <option value="{{ $provinsi1->id }}">{{ $provinsi1->nama }}</option>
+                    <option value="{{ $provinsi1->id }}"
+                        {{ Auth::user()->provinsi_lahir_id == $provinsi1->id ? 'selected' : '' }}>{{ $provinsi1->nama }}
+                    </option>
                 @endforeach
             </select>
         </div>
         <div class="mb-5">
             <label for="kota_lahir"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kota/Kabupaten</label>
-            <select id="kota_lahir" name="kota_lahir"
+            <select id="kota_lahir" name="kota_lahir_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 @foreach ($kot_kab as $kot_kab1)
-                    <option value="{{ $kot_kab1->id }}" data-provinsi-lahir-id="{{ $kot_kab1->provinsi_id }}">
+                    <option value="{{ $kot_kab1->id }}" data-provinsi-lahir-id="{{ $kot_kab1->provinsi_id }}"
+                        {{ Auth::user()->kota_lahir_id == $kot_kab1->id ? 'selected' : '' }}>
                         {{ $kot_kab1->nama }}
                     </option>
                 @endforeach
@@ -301,8 +306,8 @@
     <script>
         $(document).ready(function() {
 
-            $('#provinsi').val('{{ Auth::user()->provinsi }}')
-            $('#kota').val('{{ Auth::user()->kota }}')
+            $('#provinsi').val('{{ Auth::user()->provinsi_id }}')
+            $('#kota').val('{{ Auth::user()->kota_id }}')
             $('#kota option').hide()
 
             $('#provinsi').change(function() {
@@ -312,8 +317,8 @@
             })
 
 
-            $('#provinsi_lahir').val('{{ Auth::user()->provinsi }}')
-            $('#kota_lahir').val('{{ Auth::user()->kota }}')
+            $('#provinsi_lahir').val('{{ Auth::user()->provinsi_lahir_id }}')
+            $('#kota_lahir').val('{{ Auth::user()->kota_lahir_id }}')
             $('#kota_lahir option').hide()
 
             $('#provinsi_lahir').change(function() {

@@ -1,7 +1,8 @@
 @extends('template')
 
 @section('content')
-    <form class="max-w-sm mx-auto" method="POST" action="{{ route('updatePendaftaran', ['user' => $data->id]) }}">
+    <form id="mahasiswaForm" class="max-w-sm mx-auto" method="POST"
+        action="{{ route('updatePendaftaran', ['user' => $data->id]) }}">
         @csrf
         @method('PUT')
         <div class="mb-5">
@@ -10,8 +11,8 @@
                 (sesuai
                 ijasah disertai gelar)</label>
             <input type="text" id="nama" name="nama" value="{{ $data->nama }}"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required />
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+            <small id="namaError" class="text-red-500"></small>
         </div>
         <div class="mb-5">
             <p>2.</p>
@@ -21,6 +22,7 @@
                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
     {{ $data->alamat_ktp }}
     </textarea>
+            <small id="alamatKtpError" class="text-red-500"></small>
         </div>
         <div class="mb-5">
             <label for="alamat_sekarang" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -29,25 +31,27 @@
                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
         {{ $data->alamat_sekarang }}
     </textarea>
+            <small id="alamatSekarangError" class="text-red-500"></small>
         </div>
         <div class="mb-5">
             <label for="provinsi" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Provinsi</label>
-            <select id="provinsi" name="provinsi"
+            <select id="provinsi" name="provinsi_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 @foreach ($provinsi as $provinsi1)
-                    <option value="{{ $provinsi1->id }}" {{ $data->provinsi == $provinsi1->nama ? 'selected' : '' }}>
-                        {{ $provinsi1->nama }}</option>
+                    <option value="{{ $provinsi1->id }}" {{ $data->provinsi_id == $provinsi1->id ? 'selected' : '' }}>
+                        {{ $provinsi1->nama }}
+                    </option>
                 @endforeach
             </select>
         </div>
         <div class="mb-5">
             <label for="kota"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kota/Kabupaten</label>
-            <select id="kota" name="kota"
+            <select id="kota" name="kota_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 @foreach ($kot_kab as $kot_kab1)
                     <option value="{{ $kot_kab1->id }}" data-provinsi-id="{{ $kot_kab1->provinsi_id }}"
-                        {{ $data->kota == $kot_kab1->nama ? 'selected' : '' }}>
+                        {{ $data->kota_id == $kot_kab1->id ? 'selected' : '' }}>
                         {{ $kot_kab1->nama }}
                     </option>
                 @endforeach
@@ -56,27 +60,27 @@
         <div class="mb-5">
             <label for="kecamatan" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kecamatan</label>
             <input type="text" id="kecamatan" name="kecamatan" value="{{ $data->kecamatan }}"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required />
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+            <small id="kecamatanError" class="text-red-500"></small>
         </div>
         <div class="mb-5">
             <label for="no_telp" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor
                 Telepon</label>
             <input type="number" id="no_telp" name="no_telp" value="{{ $data->no_telp }}"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required />
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+            <small id="noTelpError" class="text-red-500"></small>
         </div>
         <div class="mb-5">
             <label for="no_hp" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor HP</label>
             <input type="number" id="no_hp" name="no_hp" value="{{ $data->no_hp }}"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required />
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+            <small id="noHpError" class="text-red-500"></small>
         </div>
         <div class="mb-5">
             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
             <input type="email" id="email" name="email" value="{{ $data->email }}"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required />
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+            <small id="emailError" class="text-red-500"></small>
         </div>
         <div class="mb-5">
             <p>3.</p>
@@ -106,9 +110,11 @@
                     WNA
                 </label>
             </div>
-            <input type="text" name="negara" placeholder="Bila WNA Sebutkan Negaranya, jika bukan isi (-)"
-                value="{{ $data->negara }}"
+            <small id="kewarganegaraanError" class="text-red-500"></small>
+            <input type="text" id="negara" name="negara"
+                placeholder="Bila WNA Sebutkan Negaranya, jika bukan isi (-)" value="{{ $data->negara }}"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+            <small id="negaraError" class="text-red-500"></small>
         </div>
         <div class="mb-5">
             <p>4.</p>
@@ -128,6 +134,7 @@
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Select date">
             </div>
+            <small id="tanggalLahirError" class="text-red-500"></small>
         </div>
         <div class="mb-5">
             <p>5.</p>
@@ -135,8 +142,8 @@
                 Tempat Lahir (sesuai ijasah)
             </label>
             <input type="text" id="tempat_lahir" name="tempat_lahir" value="{{ $data->tempat_lahir }}"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required />
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+            <small id="tempatLahirError" class="text-red-500"></small>
         </div>
         <div class="mb-5">
             <label for="negara_lahir" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -145,24 +152,28 @@
             <input type="text" id="negara_lahir" name="negara_lahir" value="{{ $data->negara_lahir }}"
                 placeholder="jika bukan isi (-)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+            <small id="negaraLahirError" class="text-red-500"></small>
         </div>
         <div class="mb-5">
             <label for="provinsi_lahir"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Provinsi</label>
-            <select id="provinsi_lahir" name="provinsi_lahir"
+            <select id="provinsi_lahir" name="provinsi_lahir_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 @foreach ($provinsi as $provinsi1)
-                    <option value="{{ $provinsi1->id }}">{{ $provinsi1->nama }}</option>
+                    <option value="{{ $provinsi1->id }}"
+                        {{ $data->provinsi_lahir_id == $provinsi1->id ? 'selected' : '' }}>{{ $provinsi1->nama }}
+                    </option>
                 @endforeach
             </select>
         </div>
         <div class="mb-5">
             <label for="kota_lahir"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kota/Kabupaten</label>
-            <select id="kota_lahir" name="kota_lahir"
+            <select id="kota_lahir" name="kota_lahir_id"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 @foreach ($kot_kab as $kot_kab1)
-                    <option value="{{ $kot_kab1->id }}" data-provinsi-lahir-id="{{ $kot_kab1->provinsi_id }}">
+                    <option value="{{ $kot_kab1->id }}" data-provinsi-lahir-id="{{ $kot_kab1->provinsi_id }}"
+                        {{ $data->kota_lahir_id == $kot_kab1->id ? 'selected' : '' }}>
                         {{ $kot_kab1->nama }}
                     </option>
                 @endforeach
@@ -188,6 +199,7 @@
                     Wanita
                 </label>
             </div>
+            <small id="jenisKelaminError" class="text-red-500"></small>
         </div>
         <div class="mb-5">
             <p>7.</p>
@@ -217,6 +229,7 @@
                     Lain-lain (janda/duda)
                 </label>
             </div>
+            <small id="statusMenikahError" class="text-red-500"></small>
         </div>
         <div class="mb-5">
             <p>8.</p>
@@ -269,6 +282,7 @@
                     Lain-lain
                 </label>
             </div>
+            <small id="agamaError" class="text-red-500"></small>
         </div>
         <div class="text-center mt-20 print:hidden">
             <button type="submit"
@@ -292,8 +306,8 @@
     <script>
         $(document).ready(function() {
 
-            $('#provinsi').val('{{ $data->provinsi }}')
-            $('#kota').val('{{ $data->kota }}')
+            $('#provinsi').val('{{ $data->provinsi_id }}')
+            $('#kota').val('{{ $data->kota_id }}')
             $('#kota option').hide()
 
             $('#provinsi').change(function() {
@@ -303,8 +317,8 @@
             })
 
 
-            $('#provinsi_lahir').val('{{ $data->provinsi }}')
-            $('#kota_lahir').val('{{ $data->kota }}')
+            $('#provinsi_lahir').val('{{ $data->provinsi_lahir_id }}')
+            $('#kota_lahir').val('{{ $data->kota_lahir_id }}')
             $('#kota_lahir option').hide()
 
             $('#provinsi_lahir').change(function() {
@@ -313,6 +327,172 @@
                 $('#kota_lahir option[data-provinsi-lahir-id="' + provinsiLahirID + '"]').show()
             })
         })
+
+        //validasi form
+        document.getElementById('mahasiswaForm').addEventListener('submit', function(event) {
+            let isValid = true;
+
+            // Mengambil nilai dari input
+            const nama = document.getElementById('nama').value.trim();
+            const alamatKtp = document.getElementById('alamat_ktp').value.trim();
+            const alamatSekarang = document.getElementById('alamat_sekarang').value.trim();
+            const provinsi = document.getElementById('provinsi').value;
+            const kota = document.getElementById('kota').value;
+            const kecamatan = document.getElementById('kecamatan').value.trim();
+            const noTelp = document.getElementById('no_telp').value.trim();
+            const noHp = document.getElementById('no_hp').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const kewarganegaraan = document.querySelector('input[name="kewarganegaraan"]:checked');
+            const negara = document.getElementById('negara').value.trim();
+            const tanggalLahir = document.getElementById('tanggal_lahir').value.trim();
+            const tempatLahir = document.getElementById('tempat_lahir').value.trim();
+            const negaraLahir = document.getElementById('negara_lahir').value.trim();
+            const provinsiLahir = document.getElementById('provinsi_lahir').value;
+            const kotaLahir = document.getElementById('kota_lahir').value;
+            const jenisKelamin = document.querySelector('input[name="jenis_kelamin"]:checked');
+            const statusMenikah = document.querySelector('input[name="status_menikah"]:checked');
+            const agama = document.querySelector('input[name="agama"]:checked');
+
+            // Validasi input
+            if (nama === '') {
+                isValid = false;
+                document.getElementById('namaError').textContent = 'Nama tidak boleh kosong';
+            } else {
+                document.getElementById('namaError').textContent = '';
+            }
+
+            if (alamatKtp === '') {
+                isValid = false;
+                document.getElementById('alamatKtpError').textContent = 'Alamat KTP tidak boleh kosong';
+            } else {
+                document.getElementById('alamatKtpError').textContent = '';
+            }
+
+            if (alamatSekarang === '') {
+                isValid = false;
+                document.getElementById('alamatSekarangError').textContent = 'Alamat sekarang tidak boleh kosong';
+            } else {
+                document.getElementById('alamatSekarangError').textContent = '';
+            }
+
+            if (provinsi === '') {
+                isValid = false;
+                document.getElementById('provinsiError').textContent = 'Provinsi tidak boleh kosong';
+            } else {
+                document.getElementById('provinsiError').textContent = '';
+            }
+
+            if (kota === '') {
+                isValid = false;
+                document.getElementById('kotaError').textContent = 'Kota/Kabupaten tidak boleh kosong';
+            } else {
+                document.getElementById('kotaError').textContent = '';
+            }
+
+            if (kecamatan === '') {
+                isValid = false;
+                document.getElementById('kecamatanError').textContent = 'Kecamatan tidak boleh kosong';
+            } else {
+                document.getElementById('kecamatanError').textContent = '';
+            }
+
+            if (noTelp === '' || noTelp.length < 10) {
+                isValid = false;
+                document.getElementById('noTelpError').textContent = 'Nomor telepon tidak valid';
+            } else {
+                document.getElementById('noTelpError').textContent = '';
+            }
+
+            if (noHp === '' || noHp.length < 10) {
+                isValid = false;
+                document.getElementById('noHpError').textContent = 'Nomor HP tidak valid';
+            } else {
+                document.getElementById('noHpError').textContent = '';
+            }
+
+            if (email === '' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                isValid = false;
+                document.getElementById('emailError').textContent = 'Email tidak valid';
+            } else {
+                document.getElementById('emailError').textContent = '';
+            }
+
+            if (!kewarganegaraan) {
+                isValid = false;
+                document.getElementById('kewarganegaraanError').textContent = 'Kewarganegaraan harus dipilih';
+            } else {
+                document.getElementById('kewarganegaraanError').textContent = '';
+            }
+
+            if (!negara) {
+                isValid = false;
+                document.getElementById('negaraError').textContent = 'Silahkan isi (-) jika selain WNA';
+            } else {
+                document.getElementById('negaraError').textContent = '';
+            }
+
+            if (tanggalLahir === '') {
+                isValid = false;
+                document.getElementById('tanggalLahirError').textContent = 'Tanggal lahir tidak boleh kosong';
+            } else {
+                document.getElementById('tanggalLahirError').textContent = '';
+            }
+
+            if (tempatLahir === '') {
+                isValid = false;
+                document.getElementById('tempatLahirError').textContent = 'Tempat lahir tidak boleh kosong';
+            } else {
+                document.getElementById('tempatLahirError').textContent = '';
+            }
+
+            if (!negaraLahir) {
+                isValid = false;
+                document.getElementById('negaraLahirError').textContent = 'Silahkan isi (-) jika selain WNA';
+            } else {
+                document.getElementById('negaraLahirError').textContent = '';
+            }
+
+            if (provinsiLahir === '') {
+                isValid = false;
+                document.getElementById('provinsiLahirError').textContent = 'Provinsi kelahiran tidak boleh kosong';
+            } else {
+                document.getElementById('provinsiLahirError').textContent = '';
+            }
+
+            if (kotaLahir === '') {
+                isValid = false;
+                document.getElementById('kotaLahirError').textContent =
+                    'Kota/Kabupaten kelahiran tidak boleh kosong';
+            } else {
+                document.getElementById('kotaLahirError').textContent = '';
+            }
+
+            if (!jenisKelamin) {
+                isValid = false;
+                document.getElementById('jenisKelaminError').textContent = 'Jenis kelamin harus dipilih';
+            } else {
+                document.getElementById('jenisKelaminError').textContent = '';
+            }
+
+            if (!statusMenikah) {
+                isValid = false;
+                document.getElementById('statusMenikahError').textContent = 'Status menikah harus dipilih';
+            } else {
+                document.getElementById('statusMenikahError').textContent = '';
+            }
+
+            if (!agama) {
+                isValid = false;
+                document.getElementById('agamaError').textContent = 'Agama harus dipilih';
+            } else {
+                document.getElementById('agamaError').textContent = '';
+            }
+
+            // Prevent form submission if validation fails
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
 
         function downloadPDF() {
             window.print();

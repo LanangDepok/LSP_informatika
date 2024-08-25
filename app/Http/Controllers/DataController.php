@@ -161,16 +161,16 @@ class DataController extends Controller
                 'alamat_ktp' => 'required',
                 'alamat_sekarang' => 'required',
                 'kecamatan' => 'required',
-                'kota' => 'required',
-                'provinsi' => 'required',
+                'kota_id' => 'required',
+                'provinsi_id' => 'required',
                 'no_telp' => 'required',
                 'no_hp' => 'required',
                 'kewarganegaraan' => 'required',
                 'negara' => 'required',
                 'tanggal_lahir' => 'required',
                 'tempat_lahir' => 'required',
-                'kota_lahir' => 'required',
-                'provinsi_lahir' => 'required',
+                'kota_lahir_id' => 'required',
+                'provinsi_lahir_id' => 'required',
                 'negara_lahir' => 'required',
                 'jenis_kelamin' => 'required',
                 'status_menikah' => 'required',
@@ -181,16 +181,6 @@ class DataController extends Controller
                 'email' => ':attribute tidak valid.',
             ];
             $validated = Validator::make($data, $rules, $messages)->validate();
-
-            $cariProvinsi = Provinsi::where('id', '=', $validated['provinsi'])->first();
-            $cariKota = KabupatenKota::where('id', '=', $validated['kota'])->first();
-            $cariProvinsiLahir = Provinsi::where('id', '=', $validated['provinsi_lahir'])->first();
-            $cariKotaLahir = KabupatenKota::where('id', '=', $validated['provinsi_lahir'])->first();
-
-            $validated['provinsi'] = $cariProvinsi->nama;
-            $validated['kota'] = $cariKota->nama;
-            $validated['provinsi_lahir'] = $cariProvinsiLahir->nama;
-            $validated['kota_lahir'] = $cariKotaLahir->nama;
 
             $user->update($validated);
 
@@ -206,16 +196,16 @@ class DataController extends Controller
                 'alamat_ktp' => null,
                 'alamat_sekarang' => null,
                 'kecamatan' => null,
-                'kota' => null,
-                'provinsi' => null,
+                'kota_id' => null,
+                'provinsi_id' => null,
                 'no_telp' => null,
                 'no_hp' => null,
                 'kewarganegaraan' => null,
                 'negara' => null,
                 'tanggal_lahir' => null,
                 'tempat_lahir' => null,
-                'kota_lahir' => null,
-                'provinsi_lahir' => null,
+                'kota_lahir_id' => null,
+                'provinsi_lahir_id' => null,
                 'negara_lahir' => null,
                 'jenis_kelamin' => null,
                 'status_menikah' => null,
@@ -254,16 +244,16 @@ class DataController extends Controller
                 'alamat_ktp' => 'required',
                 'alamat_sekarang' => 'required',
                 'kecamatan' => 'required',
-                'kota' => 'required',
-                'provinsi' => 'required',
+                'kota_id' => 'required',
+                'provinsi_id' => 'required',
                 'no_telp' => 'required',
                 'no_hp' => 'required',
                 'kewarganegaraan' => 'required',
                 'negara' => 'required',
                 'tanggal_lahir' => 'required',
                 'tempat_lahir' => 'required',
-                'kota_lahir' => 'required',
-                'provinsi_lahir' => 'required',
+                'kota_lahir_id' => 'required',
+                'provinsi_lahir_id' => 'required',
                 'negara_lahir' => 'required',
                 'jenis_kelamin' => 'required',
                 'status_menikah' => 'required',
@@ -275,18 +265,7 @@ class DataController extends Controller
             ];
             $validated = Validator::make($data, $rules, $messages)->validate();
 
-            $cariProvinsi = Provinsi::where('id', '=', $validated['provinsi'])->first();
-            $cariKota = KabupatenKota::where('id', '=', $validated['kota'])->first();
-            $cariProvinsiLahir = Provinsi::where('id', '=', $validated['provinsi_lahir'])->first();
-            $cariKotaLahir = KabupatenKota::where('id', '=', $validated['provinsi_lahir'])->first();
-
-            $validated['provinsi'] = $cariProvinsi->nama;
-            $validated['kota'] = $cariKota->nama;
-            $validated['provinsi_lahir'] = $cariProvinsiLahir->nama;
-            $validated['kota_lahir'] = $cariKotaLahir->nama;
             $validated['status'] = 'Sudah mengajukan';
-
-            // dd($user->nama);
 
             $user->update($validated);
 
