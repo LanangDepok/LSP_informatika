@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('nama');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
@@ -31,9 +31,9 @@ return new class extends Migration {
             $table->string('kota_lahir')->nullable();
             $table->string('provinsi_lahir')->nullable();
             $table->string('negara_lahir')->nullable();
-            $table->enum('jenis_kelamin', ['Pria', 'Wanita'])->nullable();
-            $table->enum('status_menikah', ['Belum Menikah', 'Menikah', 'Lain-lain (janda/duda)'])->nullable();
-            $table->enum('agama', ['Islam', 'Katolik', 'Kristen', 'Hindu', 'Budha', 'Lain-lain'])->nullable();
+            $table->string('jenis_kelamin')->nullable();
+            $table->string('status_menikah')->nullable();
+            $table->string('agama')->nullable();
             $table->string('status');
             $table->rememberToken();
             $table->timestamps();

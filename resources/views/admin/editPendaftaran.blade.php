@@ -1,7 +1,7 @@
 @extends('template')
 
 @section('content')
-    <form class="max-w-sm mx-auto" method="POST" action="{{ route('ajukanPendaftaran', ['user' => Auth::user()->id]) }}">
+    <form class="max-w-sm mx-auto" method="POST" action="{{ route('updatePendaftaran', ['user' => $data->id]) }}">
         @csrf
         @method('PUT')
         <div class="mb-5">
@@ -9,7 +9,7 @@
             <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Lengkap
                 (sesuai
                 ijasah disertai gelar)</label>
-            <input type="text" id="nama" name="nama" value="{{ Auth::user()->nama }}"
+            <input type="text" id="nama" name="nama" value="{{ $data->nama }}"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required />
         </div>
@@ -19,7 +19,7 @@
                 KTP</label>
             <textarea id="alamat_ktp" rows="4" name="alamat_ktp"
                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-    {{ Auth::user()->alamat_ktp }}
+    {{ $data->alamat_ktp }}
     </textarea>
         </div>
         <div class="mb-5">
@@ -27,7 +27,7 @@
                 Alamat Lengkap Saat Ini</label>
             <textarea id="alamat_sekarang" rows="4" name="alamat_sekarang"
                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-        {{ Auth::user()->alamat_sekarang }}
+        {{ $data->alamat_sekarang }}
     </textarea>
         </div>
         <div class="mb-5">
@@ -35,7 +35,7 @@
             <select id="provinsi" name="provinsi"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 @foreach ($provinsi as $provinsi1)
-                    <option value="{{ $provinsi1->id }}" {{ Auth::user()->provinsi == $provinsi1->nama ? 'selected' : '' }}>
+                    <option value="{{ $provinsi1->id }}" {{ $data->provinsi == $provinsi1->nama ? 'selected' : '' }}>
                         {{ $provinsi1->nama }}</option>
                 @endforeach
             </select>
@@ -47,7 +47,7 @@
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 @foreach ($kot_kab as $kot_kab1)
                     <option value="{{ $kot_kab1->id }}" data-provinsi-id="{{ $kot_kab1->provinsi_id }}"
-                        {{ Auth::user()->kota == $kot_kab1->nama ? 'selected' : '' }}>
+                        {{ $data->kota == $kot_kab1->nama ? 'selected' : '' }}>
                         {{ $kot_kab1->nama }}
                     </option>
                 @endforeach
@@ -55,26 +55,26 @@
         </div>
         <div class="mb-5">
             <label for="kecamatan" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kecamatan</label>
-            <input type="text" id="kecamatan" name="kecamatan" value="{{ Auth::user()->kecamatan }}"
+            <input type="text" id="kecamatan" name="kecamatan" value="{{ $data->kecamatan }}"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required />
         </div>
         <div class="mb-5">
             <label for="no_telp" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor
                 Telepon</label>
-            <input type="number" id="no_telp" name="no_telp" value="{{ Auth::user()->no_telp }}"
+            <input type="number" id="no_telp" name="no_telp" value="{{ $data->no_telp }}"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required />
         </div>
         <div class="mb-5">
             <label for="no_hp" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor HP</label>
-            <input type="number" id="no_hp" name="no_hp" value="{{ Auth::user()->no_hp }}"
+            <input type="number" id="no_hp" name="no_hp" value="{{ $data->no_hp }}"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required />
         </div>
         <div class="mb-5">
             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-            <input type="email" id="email" name="email" value="{{ Auth::user()->email }}"
+            <input type="email" id="email" name="email" value="{{ $data->email }}"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required />
         </div>
@@ -84,7 +84,7 @@
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kewarganegaraan</label>
             <div class="flex items-center mb-4">
                 <input id="kewarganegaraan-1" type="radio" value="WNI Asli" name="kewarganegaraan"
-                    {{ Auth::user()->kewarganegaraan == 'WNI Asli' ? 'checked' : '' }}
+                    {{ $data->kewarganegaraan == 'WNI Asli' ? 'checked' : '' }}
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label for="kewarganegaraan-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                     WNI Asli
@@ -92,7 +92,7 @@
             </div>
             <div class="flex items-center mb-4">
                 <input id="kewarganegaraan-2" type="radio" value="WNI Keturunan" name="kewarganegaraan"
-                    {{ Auth::user()->kewarganegaraan == 'WNI Keturunan' ? 'checked' : '' }}
+                    {{ $data->kewarganegaraan == 'WNI Keturunan' ? 'checked' : '' }}
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label for="kewarganegaraan-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                     WNI Keturunan
@@ -100,14 +100,14 @@
             </div>
             <div class="flex items-center mb-4">
                 <input id="kewarganegaraan-3" type="radio" value="WNA" name="kewarganegaraan"
-                    {{ Auth::user()->kewarganegaraan == 'WNA' ? 'checked' : '' }}
+                    {{ $data->kewarganegaraan == 'WNA' ? 'checked' : '' }}
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label for="kewarganegaraan-3" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                     WNA
                 </label>
             </div>
             <input type="text" name="negara" placeholder="Bila WNA Sebutkan Negaranya, jika bukan isi (-)"
-                value="{{ Auth::user()->negara }}"
+                value="{{ $data->negara }}"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
         </div>
         <div class="mb-5">
@@ -124,7 +124,7 @@
                     </svg>
                 </div>
                 <input id="tanggal_lahir" datepicker datepicker-buttons datepicker-autohide datepicker-autoselect-today
-                    type="text" name="tanggal_lahir" value="{{ Auth::user()->tanggal_lahir }}"
+                    type="text" name="tanggal_lahir" value="{{ $data->tanggal_lahir }}"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Select date">
             </div>
@@ -134,7 +134,7 @@
             <label for="tempat_lahir" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Tempat Lahir (sesuai ijasah)
             </label>
-            <input type="text" id="tempat_lahir" name="tempat_lahir" value="{{ Auth::user()->tempat_lahir }}"
+            <input type="text" id="tempat_lahir" name="tempat_lahir" value="{{ $data->tempat_lahir }}"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required />
         </div>
@@ -142,7 +142,7 @@
             <label for="negara_lahir" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Bila tempat lahir di luar negeri sebutkan negaranya
             </label>
-            <input type="text" id="negara_lahir" name="negara_lahir" value="{{ Auth::user()->negara_lahir }}"
+            <input type="text" id="negara_lahir" name="negara_lahir" value="{{ $data->negara_lahir }}"
                 placeholder="jika bukan isi (-)"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
         </div>
@@ -174,7 +174,7 @@
                 Kelamin</label>
             <div class="flex items-center mb-4">
                 <input id="jenis_kelamin-1" type="radio" value="Pria" name="jenis_kelamin"
-                    {{ Auth::user()->jenis_kelamin == 'Pria' ? 'checked' : '' }}
+                    {{ $data->jenis_kelamin == 'Pria' ? 'checked' : '' }}
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label for="jenis_kelamin-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                     Pria
@@ -182,7 +182,7 @@
             </div>
             <div class="flex items-center mb-4">
                 <input id="jenis_kelamin-2" type="radio" value="Wanita" name="jenis_kelamin"
-                    {{ Auth::user()->jenis_kelamin == 'Wanita' ? 'checked' : '' }}
+                    {{ $data->jenis_kelamin == 'Wanita' ? 'checked' : '' }}
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label for="jenis_kelamin-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                     Wanita
@@ -195,7 +195,7 @@
                 Menikah</label>
             <div class="flex items-center mb-4">
                 <input id="status_menikah-1" type="radio" value="Belum Menikah" name="status_menikah"
-                    {{ Auth::user()->status_menikah == 'Belum Menikah' ? 'checked' : '' }}
+                    {{ $data->status_menikah == 'Belum Menikah' ? 'checked' : '' }}
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label for="status_menikah-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                     Belum Menikah
@@ -203,7 +203,7 @@
             </div>
             <div class="flex items-center mb-4">
                 <input id="status_menikah-2" type="radio" value="Menikah" name="status_menikah"
-                    {{ Auth::user()->status_menikah == 'Menikah' ? 'checked' : '' }}
+                    {{ $data->status_menikah == 'Menikah' ? 'checked' : '' }}
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label for="status_menikah-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                     Menikah
@@ -211,7 +211,7 @@
             </div>
             <div class="flex items-center mb-4">
                 <input id="status_menikah-3" type="radio" value="Lain-lain (janda/duda)" name="status_menikah"
-                    {{ Auth::user()->status_menikah == 'Lain-lain (janda/duda)' ? 'checked' : '' }}
+                    {{ $data->status_menikah == 'Lain-lain (janda/duda)' ? 'checked' : '' }}
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label for="status_menikah-3" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                     Lain-lain (janda/duda)
@@ -223,7 +223,7 @@
             <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Agama</label>
             <div class="flex items-center mb-4">
                 <input id="agama-1" type="radio" value="Islam" name="agama"
-                    {{ Auth::user()->agama == 'Islam' ? 'checked' : '' }}
+                    {{ $data->agama == 'Islam' ? 'checked' : '' }}
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label for="agama-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                     Islam
@@ -231,7 +231,7 @@
             </div>
             <div class="flex items-center mb-4">
                 <input id="agama-2" type="radio" value="Katolik" name="agama"
-                    {{ Auth::user()->agama == 'Katolik' ? 'checked' : '' }}
+                    {{ $data->agama == 'Katolik' ? 'checked' : '' }}
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label for="agama-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                     Katolik
@@ -239,7 +239,7 @@
             </div>
             <div class="flex items-center mb-4">
                 <input id="agama-3" type="radio" value="Kristen" name="agama"
-                    {{ Auth::user()->agama == 'Kristen' ? 'checked' : '' }}
+                    {{ $data->agama == 'Kristen' ? 'checked' : '' }}
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label for="agama-3" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                     Kristen
@@ -247,7 +247,7 @@
             </div>
             <div class="flex items-center mb-4">
                 <input id="agama-4" type="radio" value="Hindu" name="agama"
-                    {{ Auth::user()->agama == 'Hindu' ? 'checked' : '' }}
+                    {{ $data->agama == 'Hindu' ? 'checked' : '' }}
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label for="agama-4" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                     Hindu
@@ -255,7 +255,7 @@
             </div>
             <div class="flex items-center mb-4">
                 <input id="agama-5" type="radio" value="Budha" name="agama"
-                    {{ Auth::user()->agama == 'Budha' ? 'checked' : '' }}
+                    {{ $data->agama == 'Budha' ? 'checked' : '' }}
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label for="agama-5" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                     Budha
@@ -263,37 +263,28 @@
             </div>
             <div class="flex items-center mb-4">
                 <input id="agama-6" type="radio" value="Lain-lain" name="agama"
-                    {{ Auth::user()->agama == 'Lain-lain' ? 'checked' : '' }}
+                    {{ $data->agama == 'Lain-lain' ? 'checked' : '' }}
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label for="agama-6" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                     Lain-lain
                 </label>
             </div>
         </div>
-        @if (Auth::user()->status == 'Belum mengajukan')
-            <div class="text-center mt-20">
-                <button type="submit"
-                    class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 ">
-                    Ajukan Pendaftaran
+        <div class="text-center mt-20 print:hidden">
+            <button type="submit"
+                class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 ">
+                Ubah Data
+            </button>
+            <a href="#" onclick="downloadPDF()">
+                <button
+                    class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+                    <span
+                        class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                        Print PDF
+                    </span>
                 </button>
-            </div>
-        @else
-            <div class="text-center mt-20 print:hidden">
-                <button type="submit"
-                    class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 ">
-                    Update data
-                </button>
-                <a href="#" onclick="downloadPDF()">
-                    <button
-                        class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-                        <span
-                            class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                            Print PDF
-                        </span>
-                    </button>
-                </a>
-            </div>
-        @endif
+            </a>
+        </div>
     </form>
 @endsection
 
@@ -301,8 +292,8 @@
     <script>
         $(document).ready(function() {
 
-            $('#provinsi').val('{{ Auth::user()->provinsi }}')
-            $('#kota').val('{{ Auth::user()->kota }}')
+            $('#provinsi').val('{{ $data->provinsi }}')
+            $('#kota').val('{{ $data->kota }}')
             $('#kota option').hide()
 
             $('#provinsi').change(function() {
@@ -312,8 +303,8 @@
             })
 
 
-            $('#provinsi_lahir').val('{{ Auth::user()->provinsi }}')
-            $('#kota_lahir').val('{{ Auth::user()->kota }}')
+            $('#provinsi_lahir').val('{{ $data->provinsi }}')
+            $('#kota_lahir').val('{{ $data->kota }}')
             $('#kota_lahir option').hide()
 
             $('#provinsi_lahir').change(function() {

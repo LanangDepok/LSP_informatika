@@ -124,8 +124,106 @@ class DataController extends Controller
 
     public function getAllPendaftaran()
     {
-        if (Gate::allows('mahasiswa')) {
-            return view('admin.getAllPendaftaran', ['title' => 'getAllPendaftaran']);
+        if (Gate::allows('admin')) {
+            $user = User::where('role', '!=', 'Admin')->get();
+
+            return view('admin.getAllPendaftaran', [
+                'title' => 'getAllPendaftaran',
+                'data' => $user
+            ]);
+        }
+        abort(404);
+    }
+
+    public function editPendaftaran(User $user)
+    {
+        if (Gate::allows('admin')) {
+            $provinsi = Provinsi::get();
+            $kot_kab = KabupatenKota::get();
+
+            return view('admin.editPendaftaran', [
+                'title' => 'getAllPendaftaran',
+                'data' => $user,
+                'provinsi' => $provinsi,
+                'kot_kab' => $kot_kab
+            ]);
+        }
+        abort(404);
+    }
+
+    public function updatePendaftaran(Request $request, User $user)
+    {
+        if (Gate::allows('admin')) {
+            $data = $request->all();
+            $rules = [
+                'email' => 'required|email',
+                'nama' => 'required',
+                'alamat_ktp' => 'required',
+                'alamat_sekarang' => 'required',
+                'kecamatan' => 'required',
+                'kota' => 'required',
+                'provinsi' => 'required',
+                'no_telp' => 'required',
+                'no_hp' => 'required',
+                'kewarganegaraan' => 'required',
+                'negara' => 'required',
+                'tanggal_lahir' => 'required',
+                'tempat_lahir' => 'required',
+                'kota_lahir' => 'required',
+                'provinsi_lahir' => 'required',
+                'negara_lahir' => 'required',
+                'jenis_kelamin' => 'required',
+                'status_menikah' => 'required',
+                'agama' => 'required',
+            ];
+            $messages = [
+                'required' => ':attribute tidak boleh kosong.',
+                'email' => ':attribute tidak valid.',
+            ];
+            $validated = Validator::make($data, $rules, $messages)->validate();
+
+            $cariProvinsi = Provinsi::where('id', '=', $validated['provinsi'])->first();
+            $cariKota = KabupatenKota::where('id', '=', $validated['kota'])->first();
+            $cariProvinsiLahir = Provinsi::where('id', '=', $validated['provinsi_lahir'])->first();
+            $cariKotaLahir = KabupatenKota::where('id', '=', $validated['provinsi_lahir'])->first();
+
+            $validated['provinsi'] = $cariProvinsi->nama;
+            $validated['kota'] = $cariKota->nama;
+            $validated['provinsi_lahir'] = $cariProvinsiLahir->nama;
+            $validated['kota_lahir'] = $cariKotaLahir->nama;
+
+            $user->update($validated);
+
+            return redirect()->route('dashboard')->with('success', 'Berhasil mengubah data');
+        }
+        abort(404);
+    }
+
+    public function deletePendaftaran(User $user)
+    {
+        if (Gate::allows('admin')) {
+            $user->update([
+                'alamat_ktp' => null,
+                'alamat_sekarang' => null,
+                'kecamatan' => null,
+                'kota' => null,
+                'provinsi' => null,
+                'no_telp' => null,
+                'no_hp' => null,
+                'kewarganegaraan' => null,
+                'negara' => null,
+                'tanggal_lahir' => null,
+                'tempat_lahir' => null,
+                'kota_lahir' => null,
+                'provinsi_lahir' => null,
+                'negara_lahir' => null,
+                'jenis_kelamin' => null,
+                'status_menikah' => null,
+                'agama' => null,
+                'status' => 'Belum mengajukan'
+            ]);
+
+            return redirect()->route('getAllPendaftaran')->with('success', 'Data berhasil dihapus.');
         }
         abort(404);
     }
@@ -187,6 +285,8 @@ class DataController extends Controller
             $validated['provinsi_lahir'] = $cariProvinsiLahir->nama;
             $validated['kota_lahir'] = $cariKotaLahir->nama;
             $validated['status'] = 'Sudah mengajukan';
+
+            // dd($user->nama);
 
             $user->update($validated);
 

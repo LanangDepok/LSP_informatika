@@ -8,11 +8,18 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Document</title>
+    <style>
+        @media print {
+            @page {
+                margin: 0;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <header>
+    <header class="print:hidden">
         <nav class="bg-gray-100 border-gray-200 dark:bg-gray-900">
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
